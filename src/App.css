@@ -1,38 +1,193 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.form {
+  width:50%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.pair {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+
+.horizontal-line {
+  margin:0;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: normal;
+  margin:0;
+  margin-top: 40px;
+}
+
+.text-label {
+  margin-right: 10px;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: black;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(30px + 2vmin);
+  color: white;
+}
+
+.App-body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(2vmin);
+  color: black;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 1px;
+  cursor: pointer;
+  padding: 5px 5px;
+  font-size: 17px;
+  transition: 0.3s ease;
+}
+
+.dropdown-button:hover {
+  background-color: black;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.dropdown-options {
+  position: absolute;
+  top:100%;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 1px;
+  max-height: 300px; /* Set the maximum height for the dropdown */
+  overflow-y: auto; /* Enable vertical scrolling if the content exceeds the maximum height */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.options-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-option {
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.dropdown-option:hover {
+  background-color: black;
+  color:white
+}
+
+.submit-button {
+  margin-top: 30px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 1px;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 2vmin;
+  transition: 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: black;
+  color: white;
+}
+
+.invalid-input {
+  border: 1px solid red;
+  background-color: lightcoral;
+}
+
+.plan {
+  width: 445px;
+  font-size: 23px;
+  border: 2px solid black;
+  background-color: white;
+  margin-bottom: 20px; /* Add margin between rectangles */
+  position: relative;
+}
+
+.plan-details {
+  display: block;
+  min-height: 200px;
+}
+
+.plan .header {
+  font-size: 20px;
+  background-color: black;
+  color: white;
+  padding: 7px;
+  margin-bottom: 5px;
+}
+
+.plan a {
+  color:white;
+  transition: 0.3s ease;
+}
+
+.plan a:hover {
+  color: black;
+  background-color: white;
+}
+
+.bronze {
+  background-color: brown;
+}
+.silver {
+  background-color: silver;
+}
+.gold {
+  background-color: gold;
+}
+.platinum {
+  background-color: aquamarine;
+}
+
+.button {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 1px;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 2vmin;
+  transition: 0.3s ease;
+}
+
+.button:hover {
+  background-color: black;
+  color: white;
+}
+
+.expand-button {
+  margin: 0 auto;
+  display: block;
 }

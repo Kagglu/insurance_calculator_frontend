@@ -10,6 +10,26 @@ const Plan = ({ plan }) => {
                 if (coverageLevel) {
                     coverageLevel.classList.add('bronze');
                 }
+            } else if (plan.metal_level === "Silver") {
+                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
+                if (coverageLevel) {
+                    coverageLevel.classList.add('silver');
+                }
+            } else if (plan.metal_level === "Gold") {
+                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
+                if (coverageLevel) {
+                    coverageLevel.classList.add('gold');
+                }
+            } else if (plan.metal_level === "Platinum") {
+                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
+                if (coverageLevel) {
+                    coverageLevel.classList.add('platinum');
+                }
+            } else if (plan.metal_level === "Catastrophic") {
+                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
+                if (coverageLevel) {
+                    coverageLevel.classList.add('catastrophic');
+                }
             }
         }
         metal_color();

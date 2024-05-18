@@ -8,6 +8,7 @@ import IncomeSelector from './components/IncomeSelector';
 import './App.css';
 import axios from 'axios';
 import Plan from './components/Plan'
+import PageSelector from './components/PageSelector';
 
 function App() {
   const [state, setState] = useState('');
@@ -18,6 +19,8 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [plans, setPlans] = useState('');
   const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(1);
+  const [planCount, setPlanCount] = useState(0);
 
 
   const handleStateChange = (newState) => {
@@ -40,16 +43,28 @@ function App() {
     setCountyFips(newCountyFips);
   }
 
+  const handlePageChange = (newPage) => {
+    console.log("newpage: ", newPage);
+    if (newPage !== page && newPage !== undefined) {
+      setPage(newPage);
+      getPlans();
+    }
+  }
+
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     setSubmitted(true);
-    e.preventDefault();
+    getPlans();
+  }
 
+  const getPlans = async () => {
     try {
       const response = await axios.get('https://api.kagglu.com/plans', {
-        params: { income: income, age: age, countyfips: countyFips, state: state, zipcode: zipcode }
+        params: { income: income, age: age, countyfips: countyFips, state: state, zipcode: zipcode, offset: (page - 1) * 10 }
       });
       setPlans(response.data.data);
+      setPlanCount(response.data.total);
     } catch (error) {
       console.error("Error getting plans:", error);
     } finally {
@@ -81,15 +96,14 @@ function App() {
             <IncomeSelector onIncomeChange={handleIncomeChange}/>
         </div>
         <button type="submit" className="submit-button" onClick={handleSubmit}>Submit</button>
+        {submitted && !loading &&  <PageSelector planCount={planCount} page={page} onPageChange={handlePageChange}/>}
         <div>
           <br></br>
           {submitted && plans && plans.map((plan) => (
             <Plan plan={plan}/>
           ))}
         </div>
-        <div>
-          
-        </div>
+        {submitted && !loading && <PageSelector planCount={planCount} page={page} onPageChange={handlePageChange}/>}
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ const LocationSelector = ({ onStateChange, onZipcodeChange, onCountyFipsChange }
 
     const fetchCountyFips = async (zip) => {
         try {
-            console.log("getting for zip: ", zip)
             const response = await axios.get('https://api.kagglu.com/countyfips', {
               params: { zipcode: zip }
             });

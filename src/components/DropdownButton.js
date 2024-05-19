@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const DropdownButton = ({ options, onSelect }) => {
+const DropdownButton = ({ options, onSelect, defaultText }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
     const dropdownRef = useRef(null);
@@ -28,7 +28,7 @@ const DropdownButton = ({ options, onSelect }) => {
     return (
         <div className="dropdown">
             <button className="dropdown-button" onClick={() => setIsOpen(!isOpen)}>
-                {selectedOption || 'N/A'}
+                {selectedOption || defaultText}
             </button>
             {isOpen && (
                 <div className="dropdown-options">

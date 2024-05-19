@@ -5,35 +5,32 @@ const Plan = ({ plan }) => {
 
     useEffect(() => {
         const metal_color = () => {
+            const coverageLevel = document.getElementById('coverage-level-' + plan_id);
+            coverageLevel.className = '';
             if (plan.metal_level === "Bronze") {
-                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
                 if (coverageLevel) {
                     coverageLevel.classList.add('bronze');
                 }
             } else if (plan.metal_level === "Silver") {
-                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
                 if (coverageLevel) {
                     coverageLevel.classList.add('silver');
                 }
             } else if (plan.metal_level === "Gold") {
-                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
                 if (coverageLevel) {
                     coverageLevel.classList.add('gold');
                 }
             } else if (plan.metal_level === "Platinum") {
-                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
                 if (coverageLevel) {
                     coverageLevel.classList.add('platinum');
                 }
             } else if (plan.metal_level === "Catastrophic") {
-                const coverageLevel = document.getElementById('coverage-level-' + plan_id);
                 if (coverageLevel) {
                     coverageLevel.classList.add('catastrophic');
                 }
             }
         }
         metal_color();
-    }, [plan.metal_level]);
+    }, [plan.metal_level, plan_id]);
 
     return (
         <div className='plan'>
@@ -42,26 +39,28 @@ const Plan = ({ plan }) => {
             </header>
             <div className='plan-details'>
                 <table>
-                    <tr>
-                        <td>Estimated monthly premium:</td>
-                        <td><b>${plan.premium}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Annual deductible: </td>
-                        <td><b>${plan.deductibles[0].amount}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Out-of-Pocket Limit: </td>
-                        <td><b>${plan.moops[0].amount}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Type: </td>
-                        <td><b>{plan.type}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Coverage Level: </td>
-                        <td><div id={'coverage-level-' + plan_id}>{plan.metal_level}</div></td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Estimated monthly premium: </td>
+                            <td><b>${plan.premium}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Annual deductible: </td>
+                            <td><b>${plan.deductibles[0].amount}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Out-of-Pocket Limit: </td>
+                            <td><b>${plan.moops[0].amount}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Type: </td>
+                            <td><b>{plan.type}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Coverage Level: </td>
+                            <td><div id={'coverage-level-' + plan_id}>{plan.metal_level}</div></td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div>
                     <button className='button expand-button'>

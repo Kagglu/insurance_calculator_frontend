@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 // <img src={logo} className="App-logo" alt="logo" />
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import LocationSelector from './components/LocationSelector';
 import AgeSelector from './components/AgeSelector';
 import IncomeSelector from './components/IncomeSelector';
@@ -19,7 +19,7 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [plans, setPlans] = useState('');
   const [loading, setLoading] = useState(false)
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [planCount, setPlanCount] = useState(0);
 
 
@@ -47,30 +47,36 @@ function App() {
     console.log("newpage: ", newPage);
     if (newPage !== page && newPage !== undefined) {
       setPage(newPage);
-      getPlans();
     }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setSubmitted(true);
-    getPlans();
+    setPage(1);
   }
 
-  const getPlans = async () => {
+  const getPlans = useCallback(async () => {
     try {
+      console.log("offset:", (page - 1) * 10, "  page:", page);
       const response = await axios.get('https://api.kagglu.com/plans', {
         params: { income: income, age: age, countyfips: countyFips, state: state, zipcode: zipcode, offset: (page - 1) * 10 }
       });
       setPlans(response.data.data);
       setPlanCount(response.data.total);
+      setSubmitted(true);
     } catch (error) {
       console.error("Error getting plans:", error);
     } finally {
       setLoading(false);
     }
-  }
+  }, [page, income, age, countyFips]);
+
+  useEffect(() => {
+    if (page >= 1) {
+      getPlans();
+    }
+  }, [page, getPlans]);
+
 
   return (
     <div>
@@ -100,7 +106,7 @@ function App() {
         <div>
           <br></br>
           {submitted && plans && plans.map((plan) => (
-            <Plan plan={plan}/>
+            <Plan plan={plan} key={plan.id}/>
           ))}
         </div>
         {submitted && !loading && <PageSelector planCount={planCount} page={page} onPageChange={handlePageChange}/>}

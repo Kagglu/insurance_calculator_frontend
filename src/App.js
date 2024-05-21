@@ -21,6 +21,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0);
   const [planCount, setPlanCount] = useState(0);
+  const [aptc, setAptc] = useState(0);
 
 
   const handleStateChange = (newState) => {
@@ -63,6 +64,10 @@ function App() {
       });
       setPlans(response.data.data);
       setPlanCount(response.data.total);
+      console.log(response.data.estimates);
+      if (response.data.estimates[0].aptc > 0) {
+        setAptc(response.data.estimates[0].aptc);
+      }
       setSubmitted(true);
     } catch (error) {
       console.error("Error getting plans:", error);
@@ -106,7 +111,7 @@ function App() {
         <div>
           <br></br>
           {submitted && plans && plans.map((plan) => (
-            <Plan plan={plan} key={plan.id}/>
+            <Plan plan={plan} key={plan.id} aptc={aptc}/>
           ))}
         </div>
         {submitted && !loading && <PageSelector planCount={planCount} page={page} onPageChange={handlePageChange}/>}

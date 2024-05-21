@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Plan = ({ plan }) => {
+const Plan = ({ plan, aptc }) => {
     const plan_id = plan.id;
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const Plan = ({ plan }) => {
                     <tbody>
                         <tr>
                             <td>Estimated monthly premium: </td>
-                            <td><b>${plan.premium}</b></td>
+                            <td><b>${Math.max((plan.premium - aptc).toFixed(2), 0)}</b></td>
                         </tr>
                         <tr>
                             <td>Annual deductible: </td>

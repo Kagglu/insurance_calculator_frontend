@@ -42,7 +42,7 @@ const Plan = ({ plan, aptc }) => {
                     <tbody>
                         <tr>
                             <td>Estimated monthly premium: </td>
-                            <td><b>${Math.max((plan.premium - aptc).toFixed(2), 0)}</b></td>
+                            <td><b>${ aptc > 0 ? plan.premium_w_credit : plan.premium}</b></td>
                         </tr>
                         <tr>
                             <td>Annual deductible: </td>

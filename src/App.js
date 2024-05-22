@@ -21,7 +21,8 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0);
   const [planCount, setPlanCount] = useState(0);
-  const [aptc, setAptc] = useState(0);
+  const [aptc, setAptc] = useState(-1);
+  const [medicaidEligible, setMedicaidEligible] = useState(false);
 
 
   const handleStateChange = (newState) => {
@@ -45,7 +46,6 @@ function App() {
   }
 
   const handlePageChange = (newPage) => {
-    console.log("newpage: ", newPage);
     if (newPage !== page && newPage !== undefined) {
       setPage(newPage);
     }
@@ -54,27 +54,34 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPage(1);
+    setAptc(-1);
   }
 
   const getPlans = useCallback(async () => {
     try {
-      console.log("offset:", (page - 1) * 10, "  page:", page);
       const response = await axios.get('https://api.kagglu.com/plans', {
-        params: { income: income, age: age, countyfips: countyFips, state: state, zipcode: zipcode, offset: (page - 1) * 10 }
+        params: { income: income, age: age, countyfips: countyFips, state: state, zipcode: zipcode, offset: (page - 1) * 10, aptc: aptc }
       });
-      setPlans(response.data.data);
-      setPlanCount(response.data.total);
-      console.log(response.data.estimates);
-      if (response.data.estimates[0].aptc > 0) {
-        setAptc(response.data.estimates[0].aptc);
+      console.log(response.data)
+      if (response.data.isMedicaidCHIP) {
+        setMedicaidEligible(true);
+      } else {
+        setMedicaidEligible(false);
+        setPlans(response.data.data);
+        setPlanCount(response.data.total);
+        if (response.data.aptcOverride > 0) {
+          setAptc(response.data.aptcOverride);
+        } else {
+          setAptc(-1);
+        }
+        setSubmitted(true);
       }
-      setSubmitted(true);
     } catch (error) {
       console.error("Error getting plans:", error);
     } finally {
       setLoading(false);
     }
-  }, [page, income, age, countyFips]);
+  }, [page]);
 
   useEffect(() => {
     if (page >= 1) {
@@ -107,6 +114,7 @@ function App() {
             <IncomeSelector onIncomeChange={handleIncomeChange}/>
         </div>
         <button type="submit" className="submit-button" onClick={handleSubmit}>Submit</button>
+        {medicaidEligible && <span>Eligible for Medicaid</span>}
         {submitted && !loading &&  <PageSelector planCount={planCount} page={page} onPageChange={handlePageChange}/>}
         <div>
           <br></br>
